@@ -2,13 +2,10 @@ const logo = document.getElementById('dvdLogo');
 const container = document.querySelector('.container');
 
 // Logo position and velocity
-let x = Math.random() * (window.innerWidth - getLogoWidth());
-let y = Math.random() * (window.innerHeight - getLogoHeight());
-let velocityX = 5;
-let velocityY = 5;
+let x, y, velocityX, velocityY;
 
 // Color rotation
-let hue = 0;
+let hue;
 
 function getLogoWidth() {
     return logo.offsetWidth;
@@ -16,6 +13,20 @@ function getLogoWidth() {
 
 function getLogoHeight() {
     return logo.offsetHeight;
+}
+
+function initializeAnimation() {
+    // Set random starting position
+    x = Math.random() * (window.innerWidth - getLogoWidth());
+    y = Math.random() * (window.innerHeight - getLogoHeight());
+    
+    // Set velocity based on window size
+    velocityX = window.innerWidth / 256;
+    velocityY = window.innerWidth / 256;
+    
+    // Start with random hue
+    hue = Math.random() * 360;
+    logo.querySelector('svg').style.filter = `hue-rotate(${hue}deg)`;
 }
 
 function animate() {
@@ -52,5 +63,15 @@ function changeColor() {
     logo.querySelector('svg').style.filter = `hue-rotate(${hue}deg)`;
 }
 
-// Start animation
+// Initialize and start animation
+initializeAnimation();
 animate();
+
+// Debounce resize events to wait until resizing finishes
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        initializeAnimation();
+    }, 100); // Wait 100ms after resize stops
+});
