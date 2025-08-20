@@ -21,8 +21,8 @@ function initializeAnimation() {
     y = Math.random() * (window.innerHeight - getLogoHeight());
     
     // Set velocity based on window size
-    velocityX = window.innerWidth / 256;
-    velocityY = window.innerWidth / 256;
+    velocityX = Math.round((window.innerWidth + window.innerHeight) / 512); 
+    velocityY = velocityX; 
     
     // Start with random hue
     hue = Math.random() * 360;
